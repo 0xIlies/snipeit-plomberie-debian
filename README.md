@@ -1,4 +1,4 @@
-# 🔧 Snipe-IT sur Debian 12 — Guide complet pour PME
+# 🔧 Snipe-IT sur Debian 12 — Guide complet pour PME 
 
 > Gestion d'outillage open source, auto-hébergée, pour une entreprise de plomberie.
 > Inventaire + QR codes + check-in/check-out depuis le téléphone.
