@@ -1,0 +1,44 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: snipeit-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ChangeMoi_RootPassword
+      MYSQL_DATABASE: snipeit
+      MYSQL_USER: snipeit
+      MYSQL_PASSWORD: ChangeMoi_SnipeitPassword
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-u", "snipeit", "-pChangeMoi_SnipeitPassword"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  snipeit:
+    image: snipe/snipe-it:latest
+    container_name: snipeit-app
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "80:80"
+    environment:
+      APP_URL: http://192.168.1.X
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: snipeit
+      DB_USERNAME: snipeit
+      DB_PASSWORD: ChangeMoi_SnipeitPassword
+      APP_KEY: ""
+      APP_TIMEZONE: Europe/Paris
+      APP_LOCALE: fr
+      MAIL_DRIVER: log
+    volumes:
+      - snipeit_data:/var/lib/snipeit
+
+volumes:
+  mysql_data:
+  snipeit_data:
